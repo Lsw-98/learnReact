@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+  </style>
 </head>
 
 <body>
@@ -18,10 +20,13 @@
   <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
 
   <script type="text/babel">
-    // 1. 创建虚拟DOM
-    const VDOM = <h1>Hello React</h1>
-    // 2. 渲染虚拟DOM到页面
-    ReactDOM.render(VDOM, document.getElementById('test'))
+    // 创建函数式组件
+    function Demo() {
+      console.log(this);     // undefined，因为babel编译后开启了严格模式
+      return <h1>我是函数式组件</h1>
+    }
+    // 渲染组件到页面
+    ReactDOM.render(<Demo />, document.getElementById("test"))
   </script>
 </body>
 

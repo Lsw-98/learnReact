@@ -6,6 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .title {
+      color: red;
+    }
+  </style>
 </head>
 
 <body>
@@ -18,11 +23,23 @@
   <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
 
   <script type="text/babel">
+    /*
+      jsx语法规则
+       1. 标签中有js表达式时，要使用{}
+       2. 标签的类名为className
+       3. 内联样式要使用{{}}
+       4. 只有一个根标签
+    */
     // 1. 创建虚拟DOM
-    const VDOM = <h1>Hello React</h1>
+    const VDOM = (
+      <h2 className="title">
+        <span style={{ backgroundColor: "yellow" }}>Hello React</span>
+      </h2 >
+    )
     // 2. 渲染虚拟DOM到页面
-    ReactDOM.render(VDOM, document.getElementById('test'))
+    ReactDOM.render(VDOM, document.getElementById('test'))      
   </script>
+
 </body>
 
 </html>

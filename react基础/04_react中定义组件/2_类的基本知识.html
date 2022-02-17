@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 创建一个Person类
+    class Person {
+      // 构造器方法
+      constructor(name, age) {
+        // 构造器中的this是实例对象
+        this.name = name
+        this.age = age
+      }
+
+      // 一般方法
+      speak() {   // 该方法放在Person实例化对象的原型链上
+        console.log(`我叫${this.name}，我今年${this.age}岁`);
+      }
+    }
+
+    class Student extends Person {
+      constructor(name, age, grade) {
+        super(name, age)
+        this.grade = grade
+      }
+
+      // 重写从父类继承的方法
+      speak() {
+        console.log(`我叫${this.name}，我今年${this.age}岁，我读${this.grade}`);
+      }
+    }
+
+    //  实例化一个Person类
+    const p1 = new Person("lsw", 24)
+    p1.speak()
+
+    const s1 = new Student("lsw", 24, "研二")
+    s1.speak()
+  </script>
+</body>
+
+</html>

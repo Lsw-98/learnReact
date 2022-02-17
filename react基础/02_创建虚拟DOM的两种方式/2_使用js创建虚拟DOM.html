@@ -14,15 +14,14 @@
   <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
   <!-- 引入react-dom，用于支持react操作DOM -->
   <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
-  <!-- 用于将jsx转化为js -->
-  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
 
-  <script type="text/babel">
+  <script type="text/javascript">
     // 1. 创建虚拟DOM
-    const VDOM = <h1>Hello React</h1>
+    const VDOM = React.createElement('h1', { id: "title" }, "Hello React")
     // 2. 渲染虚拟DOM到页面
     ReactDOM.render(VDOM, document.getElementById('test'))
   </script>
+
 </body>
 
 </html>

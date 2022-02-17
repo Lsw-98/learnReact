@@ -18,10 +18,28 @@
   <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
 
   <script type="text/babel">
-    // 1. 创建虚拟DOM
-    const VDOM = <h1>Hello React</h1>
-    // 2. 渲染虚拟DOM到页面
-    ReactDOM.render(VDOM, document.getElementById('test'))
+    class Weather extends React.Component {
+      // 类中可以直接写赋值语句，含义为增加一个属性
+      // a = 1
+
+      // 初始化状态
+      state = { isHot: false }
+
+      render() {
+        return (
+          <h1 onClick={this.changeWeather}>今天天气很{this.state.isHot ? "凉爽" : "炎热"}</h1>
+        )
+      }
+
+      // 自定义方法
+      // 要用赋值语句+箭头函数的写法
+      changeWeather = () => {
+        const isHot = this.state.isHot
+        this.setState({ isHot: !isHot })
+      }
+    }
+
+    ReactDOM.render(<Weather />, document.getElementById("test"))
   </script>
 </body>
 

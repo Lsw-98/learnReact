@@ -19,10 +19,17 @@
 
   <script type="text/babel">
     // 1. 创建虚拟DOM
-    const VDOM = <h1>Hello React</h1>
+    const VDOM = <h1 id="title">Hello React</h1>
     // 2. 渲染虚拟DOM到页面
     ReactDOM.render(VDOM, document.getElementById('test'))
+    /*
+      关于虚拟DOM
+      1. 本质是Object对象
+      2. 虚拟DOM比较“轻”，真实DOM比较“重”
+    */
+    console.log(VDOM);
   </script>
+
 </body>
 
 </html>
