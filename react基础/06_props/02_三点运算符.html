@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+
+    // 三点运算符的作用
+    // 1. 展开一个数组
+    let arr1 = [1, 2, 3, 4, 5]
+    console.log(...arr1);
+
+    // 2.合并两个数组
+    let arr2 = [6, 7, 8, 9, 10]
+    console.log([...arr1, ...arr2]);
+
+    // 3.当函数的形参传入数量不明确时，当作函数的形参使用
+    function add(...numbers) {
+      return numbers.reduce((pre, cur) => {
+        return pre + cur
+      })
+    }
+    console.log(add(1, 2, 3, 4, 5));
+
+    // 4.复制对象
+    let person1 = { name: "lsw", age: 24 }
+    // 复制对象
+    let person2 = { ...person1 }
+    // 复制对象的同时修改对象属性
+    let person3 = { ...person1, name: "张三", sex: "男" }
+    person1.age = 18
+    console.log(person1);
+    console.log(person2);
+    console.log(person3);
+
+  </script>
+
+</body>
+
+</html>
