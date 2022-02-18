@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Demo extends React.Component {
+      // 非受控组件：
+      // 对于所有的输入类标签，如：form、radio、input等
+      // 如果对他们的输入提交后马上进行了使用，就是非受控组件
+
+      /*
+        非受控组件：
+        非受控组件即不受状态的控制，获取数据就是相当于操作DOM。
+        表单数据由DOM本身处理。即不受setState()的控制，
+        与传统的HTML表单输入相似，input输入值即显示最新值（使用 ref从DOM获取表单值）
+      */
+      submitMessage = (event) => {
+        event.preventDefault()
+        alert(`你输入的用户名是：${this.username.value}, 你输入的密码是${this.password.value}`)
+      }
+
+      render() {
+        return (
+          <form onSubmit={this.submitMessage}>
+            用户名：<input ref={currentNode => { this.username = currentNode }} type="text" name="username" />
+            密码：<input ref={currentNode => { this.password = currentNode }} type="password" name="password" />
+            <br />
+            <button>提交</button>
+          </form>
+        )
+      }
+    }
+
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>

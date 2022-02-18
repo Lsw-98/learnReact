@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Demo extends React.Component {
+      /*
+        高阶函数的定义：
+          1. 若函数A接收的参数是一个函数，那么A就是一个高阶函数
+          2. 若函数A调用的返回值依然是一个函数，那么A就是一个高阶函数
+        常见的高阶函数：Promise、setTimeout、map、reduce、filter等
+      */
+
+      // 函数的柯里化：
+      // 通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+
+      state = {
+        username: "",
+        password: ""
+      }
+
+      // 函数柯里化的写法
+      // saveMessage是一个函数，有一个形参data，
+      // saveMessage的返回值也是一个函数，也有一个形参event
+      saveMessage = (data) => {
+        return (event) => {
+          this.setState({
+            // 这里的data要加[]才表示变量，否则为字符串
+            [data]: event.target.value
+          })
+        }
+      }
+
+      submitMessage = (event) => {
+        event.preventDefault()
+        alert(`你输入的用户名是：${this.state.username}, 你输入的密码是${this.state.password}`)
+      }
+
+      render() {
+        return (
+          <form onSubmit={this.submitMessage}>
+            用户名：<input onChange={this.saveMessage("username")} type="text" name="username" />
+            密码：<input onChange={this.saveMessage("password")} type="password" name="password" />
+            <br />
+            <button>提交</button>
+          </form>
+        )
+      }
+    }
+
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>

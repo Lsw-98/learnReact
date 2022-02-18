@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Demo extends React.Component {
+      clickMessage1 = () => {
+        const { input1 } = this
+        alert(input1.value);
+      }
+
+      clickMessage2 = () => {
+        const { input2 } = this
+        alert(input2.value);
+      }
+
+      render() {
+        // 组件内的标签可以定义ref属性标识自己
+
+        // onBlur:失去焦点事件
+        return (
+          <div>
+            <input ref={currentNode => { this.input1 = currentNode }} type="text" />
+            <button onClick={this.clickMessage1}>提示信息</button>
+            <input ref={currentNode => { this.input2 = currentNode }} type="text" onBlur={this.clickMessage2} />
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>
