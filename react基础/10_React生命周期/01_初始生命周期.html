@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    // 创建组件
+    class Demo extends React.Component {
+      // 设置一个透明度状态
+      state = { opacity: 1 }
+
+      des = () => {
+        // 卸载指定组件
+        ReactDOM.unmountComponentAtNode(document.getElementById("test"))
+      }
+
+      // 组件挂载到页面之后调用（1次） 
+      componentDidMount() {
+        this.timer = setInterval(() => {
+          let { opacity } = this.state
+          opacity -= 0.1
+          if (opacity <= 0) opacity = 1
+          this.setState({
+            opacity
+          })
+
+        }, 200);
+      }
+
+      // 组件将要被卸载之前调用（1次）
+      componentWillUnmount() {
+        // 在卸载组件之前先清空定时器
+        clearInterval(this.timer)
+      }
+
+      // render调用的时机：初始化渲染、状态每次更新后（1+N次）
+      render() {
+        return (
+          <div>
+            <h2 style={{ opacity: this.state.opacity }}>学不会React，怎么办</h2>
+            <button onClick={this.des}>点我试试</button>
+          </div>
+        )
+      }
+    }
+
+    // 挂载指定组件
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+
+  </script>
+</body>
+
+</html>
