@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { nanoid } from 'nanoid'
 import './Header.css'
+import PropTypes from 'prop-types'
 
 export default class Header extends Component {
+  // 对props进行类型限定
+  static propTypes = {
+    getTodo: PropTypes.func.isRequired
+  }
+
   handleKeyUp = (event) => {
     const { keyCode, target } = event
     // keyCode = 13为回车键
