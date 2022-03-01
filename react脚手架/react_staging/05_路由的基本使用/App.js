@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import About from './pages/About/About'
-import Home from './pages/Home/Home'
-import { Route } from 'react-router-dom'
-import MyNavLink from './component/MyNavLink/MyNavLink'
+import About from './components/About/About'
+import Home from './components/Home/Home'
+import { Link, Route } from 'react-router-dom'
 
 export default class App extends Component {
   render() {
@@ -22,19 +21,9 @@ export default class App extends Component {
               {/*<a className="list-group-item" href="./about.html">About</a>
               <a className="list-group-item active" href="./home.html">Home</a>*/}
 
-              {/* 
-                在React中使用Link标签实现不同路由之间的切换
-                <NavLink className="list-group-item" to="/home">Home</NavLink>
-              */}
-              {/* 
-                NavLink：给当前路由加高亮
-                <NavLink activeClassName="test" className="list-group-item" to='/about'>About</NavLink>
-               */}
-              {/* 
-                标签体是特殊的标签属性，在props中为children
-               */}
-              <MyNavLink to="/about" title="About">About</MyNavLink>
-              <MyNavLink to="/home" title="Home">Home</MyNavLink>
+              {/* 在React中使用Link标签实现不同路由之间的切换 */}
+              <Link className="list-group-item" to="/about">About</Link>
+              <Link className="list-group-item" to="/home">Home</Link>
             </div>
           </div>
           {/* 注册路由 */}

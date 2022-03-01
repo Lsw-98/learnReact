@@ -21,3 +21,17 @@
     1. 在componentDidMount()函数中订阅，先订阅、再发布
     2. 适用于任意组件通信
     3. 要在组件的componentWillUnmount()函数中取消订阅
+
+# 路由的基本使用
+1. 明确好界面中的布局
+2. 路由标签使用Link进行跳转
+3. 使用Route标签进行路径的匹配
+4. <App />最外侧包裹着<BrowserRouter>
+
+# 路由组件和与一般组件的区别
+1. 写法不同：
+    一般组件： <Demo />
+    路由组件：<Route path="/demo" component={Demo}>
+2. 接收到的props的不同
+    一般组件：写组件标签时传递了什么，就能收到什么
+    路由组件：接收到三个固定的属性:location、history、match
