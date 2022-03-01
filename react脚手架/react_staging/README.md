@@ -45,3 +45,9 @@
 1. 默认使用模糊匹配，【输入的路径】必须包含要【匹配的路径】，且顺序一致
 2. 开启严格匹配，加exact关键字
 3. 严格匹配不需要便不要开启, 否则无法继续匹配二级路由
+
+# 向路由组件传递参数
+1. params参数
+    第一步：路由链接（携带参数）：<Link to={`/home/messages/detail/${item.id}/${item.title}`}>{item.title}</Link>
+    第二步：注册路由（声明接收）：<Route path='/home/messages/detail/:id/:title' component={Detail} />
+    第三步：路由组件（接收参数）：const { id, title } = this.props.match.params
