@@ -59,6 +59,6 @@
                                 再调用qs.parse(search.slice(1))解析为对象格式
                                 最后进行解构
 3. state参数
-    第一步：路由标签（携带参数）：
-    第二步：注册路由（声明接收）：
-    第三步：路由组件（接收参数）：
+    第一步：路由标签（携带参数）：<Link to={{ pathname: "/home/messages/detail", state: { id: item.id, title: item.title } }}>{item.title}</Link>
+    第二步：注册路由（声明接收）：无需声明
+    第三步：路由组件（接收参数）：const { id, title } = this.props.location.state || {}
