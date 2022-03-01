@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import MyNavLink from './component/MyNavLink/MyNavLink'
 
 export default class App extends Component {
@@ -33,13 +33,26 @@ export default class App extends Component {
               {/* 
                 标签体是特殊的标签属性，在props中为children
                */}
-              <MyNavLink to="/about" title="About">About</MyNavLink>
-              <MyNavLink to="/home" title="Home">Home</MyNavLink>
+              {/* 这里是配置的路由标签 */}
+              <MyNavLink to="/lsw/about" title="About">About</MyNavLink>
+              <MyNavLink to="/lsw/home" title="Home">Home</MyNavLink>
             </div>
           </div>
-          {/* 注册路由 */}
-          <Route path='/about' component={About}></Route>
-          <Route path='/home' component={Home}></Route>
+          {/* 
+            注册路由
+            若匹配上了某个路由，就不会继续往下匹配了
+           */}
+          <Switch>
+            {/* 这里是需要展示的路由标签 */}
+            {/* 
+              path需要和to进行匹配
+              默认为模糊匹配
+              模糊匹配：to若包含path，则可以匹配成功，不需要to和path完全一样
+              严格匹配：exact
+            */}
+            <Route exact path='/lsw/about' component={About}></Route>
+            <Route exact path='/lsw/home' component={Home}></Route>
+          </Switch>
         </div>
       </div>
     )

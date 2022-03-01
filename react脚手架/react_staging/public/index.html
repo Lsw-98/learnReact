@@ -17,7 +17,13 @@
   <!-- github搜索案例 -->
   <!-- <link rel="stylesheet" href="./css/bootstrap.css"> -->
   <!-- 路由案例 -->
-  <link rel="stylesheet" href="./css/bootstrapRouter.css">
+  <!-- 
+    解决样式丢失的三种方案：
+    1. <link rel="stylesheet" href="/css/bootstrapRouter.css">
+    2. <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrapRouter.css">
+    3. <link rel="stylesheet" href="。/css/bootstrapRouter.css">,使用哈希路由
+   -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrapRouter.css">
   <title>React App</title>
 </head>
 
