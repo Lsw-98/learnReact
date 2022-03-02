@@ -1,3 +1,8 @@
+# 记录React学习过程
+
+# 什么是React
+
+
 # todoList 相关知识点
 
 1. 拆分组件、实现静态组件，注意：className、style的写法
@@ -62,3 +67,39 @@
     第一步：路由标签（携带参数）：<Link to={{ pathname: "/home/messages/detail", state: { id: item.id, title: item.title } }}>{item.title}</Link>
     第二步：注册路由（声明接收）：无需声明
     第三步：路由组件（接收参数）：const { id, title } = this.props.location.state || {}
+
+
+# Redux
+
+Redux是一个专门用于管理状态的JS库，可以集中式管理React中多个组件共享的状态。
+
+## * 什么情况下可以使用Redux
+    1. 某个组件的状态，需要让其他组件使用时（共享）
+    2. 一个组件需要更改另一个组件的状态（通信）
+
+## * redux的三个核心概念
+### ** action
+    action是动作的对象，包括两个属性：
+    1. type：动作的类型，值为字符串，必要属性，唯一
+    2. data：数据属性，值任意，可选属性
+    例如：{type:"add_one", number:1}
+
+### ** store
+    store将action、reducer、state联系到了一起
+
+### ** reducer
+    reducer可以初始化状态，也可以更新状态
+
+## * 求和案例
+### redux的API
+
+1. createStore(reducer, [preloadedState], enhancer)  
+    用于创建一个Redux store 来以存放应用中所有的 state。  
+    应用中应有且仅有一个 store。
+    * reducer (Function): 接收两个参数，分别是当前的 state 树和要处理的 action，返回新的 state 树
+
+2. getState()：返回应用当前的state树
+3. dispatch(action)：分发action，是触发state变化的唯一途径
+4. subscribe(listener) 添加一个变化监听器，每当dispatch(action)的时候，就会执行。state 树中的一部分可能已经变化，可以在回调函数里调用 getState() 来拿到当前 state。    
+
+    
