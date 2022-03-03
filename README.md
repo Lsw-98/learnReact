@@ -1,7 +1,65 @@
 # 记录React学习过程
 
 # 什么是React
+我理解的React就是一个构建用户界面的js库，它更注重View层面的东西。可以将页面分为多个组件，进行组件化开发，最后将合适组件渲染到页面当中。
+React开发灵活，高效，使用jsx语法；使用虚拟DOM减少与DOM的交互，提高性能；组件化的开发可以更好的复用。
 
+# jsx
+jsx是js的扩展语法，jsx执行速度更快，更高效，并且是类型安全的，在编译阶段就能发现错误。  
+jsx有以下语法规则：  
+ - 没有if...else...语法，可以用三元运算符代替；
+ - 内联样式需要在{}内写，并且写成对象形式
+ - 注释也要写在{}中
+ - 类名要写成className
+
+# 组件
+## *类组件
+
+## *函数组件
+
+# state
+state是用来管理组件中需要用到的数据的。可以使用this.setState()方法来修改state。
+
+# props
+可以通过给某个组件标签增加属性的方式来给该组件传递props。
+也可以通过[component].defaultProps属性来指定默认的props值
+
+## *props和state的区别
+props不可变，而state可以通过setState()改变。
+
+## *Props 验证
+可以通过props-type来对接收的props进行类型限制，例如：
+```js
+// 对props进行类型限定
+static propTypes = {
+  todos: PropTypes.array.isRequired,
+  updateTodos: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired
+}
+```
+
+# ref
+可以通过ref获取DOM元素，例如：
+```js
+<input ref={content => { this.c = content }} type="text" />
+consloe.log(this.c)  // <input type="text">
+consloe.log(this.c.value)  // 可以得到输入框的内容
+```
+
+## *注
+    在react中尽量少使用ref
+
+# 事件处理
+通过onXxx属性指定事件处理函数  
+React使用的是自定义（合成）事件，而不是使用的原生DOM事件 ---- 为了更高的兼容性。  
+React中的事件是通过事件委托方式处理的（委托给组件最外层的元素） ---- 为了更高效。  
+通过event.target得到发生事件的DOM元素对象。
+
+# react事件绑定和原生事件绑定的区别
+react中的事件是绑定到document上面的，而原生的事件是绑定到dom上面的。
+
+## *react事件绑定的优点
+所有事件都代理到document，达到性能优化的目的
 
 # todoList 相关知识点
 
