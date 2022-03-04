@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+  <script type="text/babel">
+
+    class Parent extends React.Component {
+      state = {
+        number: 0
+      }
+
+      addNumberasync = () => {  //数量+1
+        // this.setState({ number: this.state.number + 1 })
+        // // 打印结果为0，说明在执行console.log()的时候state的状态还没被改变，证明这时候setState是异步的。
+        // console.log(this.state.number, 'add----')   // 打印：0 add----
+
+        this.setState({ number: this.state.number + 1 })
+        this.setState({ number: this.state.number + 1 })
+        this.setState({ number: this.state.number + 1 })
+        console.log(this.state.number, 'add----')  // 打印：0 add----
+      }
+
+      // 将setState()变为同步的两种方式
+      // 方式一：给setState()传入state参数
+      // addNumber = () => {  //数量+1
+      //   this.setState((state) => ({ number: state.number + 1 }))
+      //   this.setState((state) => ({ number: state.number + 1 }))
+      //   this.setState((state) => ({ number: state.number + 1 }))
+      // }
+
+      // // 此时页面显示为3。观察发现打印结果仍为0，我们想让打印结果同步，该如何做？
+
+      // 有一种实现方式，就是在setState()传入一个回调函数，
+      // 当setState()执行结束之后执行该回调函数
+      // （此时你可以执行自己想要依赖最后更新的state去做的其他一些操作），
+      // 这里执行打印:
+
+      // addNumber = () => {  //数量+1
+      //   this.setState((state) => ({ number: state.number + 1 }))
+      //   this.setState((state) => ({ number: state.number + 1 }))
+      //   this.setState((state) => ({ number: state.number + 1 }), () => {
+      //     console.log(this.state.number, 'add 3----')
+      //   })
+      // }
+
+      // 方式二：使用setTimeout()包裹
+      addNumber = () => {
+        setTimeout(() => {
+          this.setState({ number: this.state.number + 1 })
+          this.setState({ number: this.state.number + 1 })
+          this.setState({ number: this.state.number + 1 })
+          console.log(this.state.number, 'add----')  // 打印：0 add----
+
+        }, 100);
+      }
+
+
+      render() {
+        return (
+          <div>
+            <p>{this.state.number}</p>
+            <button onClick={this.addNumberasync}>数量+1(异步)</button>
+            <button onClick={this.addNumber}>数量+1(同步)</button>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Parent />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>

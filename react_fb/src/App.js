@@ -1,59 +1,40 @@
 import React, { Component } from 'react'
-import { nanoid } from 'nanoid'
+import './App.css'
+import Cinema from './component/Cinema/Cinema'
+import Profile from './component/Profile/Profile'
+import Home from './component/Home/Home'
 
 export default class App extends Component {
   state = ({
-    content: "",
-    messageArr: [
-      { id: "1", content: "vue真好用" },
-      { id: "2", content: "react大厂用的多" },
-      { id: "3", content: "nodejs必须掌握" },
-    ]
+    data: [
+      { id: "1", title: "电影" },
+      { id: "3", title: "选座" },
+      { id: "2", title: "我的" },
+    ],
+    current: 0,
   })
 
-  addContent = () => {
-    console.log(this.c);
-    const newContent = { id: nanoid(), content: this.c.value }
+  handleClick = (index) => {
     this.setState({
-      messageArr: [...this.state.messageArr, newContent]
-    })
-
-    // 清空输入框
-    this.c.value = ""
-  }
-
-  delContent = (id) => {
-    const newMessages = this.state.messageArr.filter((item) => {
-      return item.id !== id
-    })
-    this.setState({
-      messageArr: newMessages
+      current: index
     })
   }
 
   render() {
+    const { data, current } = this.state
     return (
       <div>
-        <input ref={content => { this.c = content }} type="text" />
-        <button onClick={this.addContent}>add</button>
+        {
+          current === 0 ? <Home /> :
+            current === 1 ? <Cinema /> : <Profile />
+        }
         <ul>
           {
-            this.state.messageArr.map((item) => {
-              return (
-                <div>
-                  <li key={item.id}>{item.content}
-                    {/* <button onClick={this.delContent.bind(this, item.id)}>del</button> */}
-                    <button onClick={() => { this.delContent(item.id) }}>del</button>
-                  </li>
-                </div>
-              )
+            data.map((item, index) => {
+              return <li onClick={() => { this.handleClick(index) }} className={current === index ? 'active' : null} key={item.id}>{item.title}</li>
             })
           }
         </ul>
-        {
-          this.state.messageArr.length === 0 ? <h2>暂无待办事项</h2> : null
-          // this.state.messageArr.length === 0 && <h2>暂无待办事项</h2> 
-        }
       </div >
     )
   }

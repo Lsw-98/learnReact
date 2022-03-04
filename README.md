@@ -20,12 +20,25 @@ jsx有以下语法规则：
 # state
 state是用来管理组件中需要用到的数据的。可以使用this.setState()方法来修改state。
 
+## *setState()是异步还是同步的
+    在一个事件函数中，不管setState()被调用多少次，都会在函数执行结束后，统一归结为一次重新渲染，这样做可以【优化性能】，这使得setState()表现为异步的。
+## * 什么情况下，setState()表现为异步
+    在react中的合成事件(onClick)或钩子函数(constructor)里面调用setState()
+
+    - 当setState处在同步的逻辑中，则表现为异步更新状态
+    - 当setState处在异步的逻辑中，则表现为同步更新状态
+
+## *如何将setState()变为同步
+    1. 在setState()传入state（可以理解成上一次的state）作为参数，根据上一次state改变当前state。
+    2. 使用setTimeout()包裹setState()
+
+
 # props
 可以通过给某个组件标签增加属性的方式来给该组件传递props。
 也可以通过[component].defaultProps属性来指定默认的props值
 
 ## *props和state的区别
-props不可变，而state可以通过setState()改变。
+组件不可自己随意修改props，而state可以通过setState()修改。
 
 ## *Props 验证
 可以通过props-type来对接收的props进行类型限制，例如：
