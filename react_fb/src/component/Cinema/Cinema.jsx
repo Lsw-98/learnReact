@@ -40,7 +40,8 @@ export default class Cinema extends Component {
 
   handleSearch = (event) => {
     const newCinemaArr = this.state.copyCinemaArr.filter((item) => {
-      return item.name.toUpperCase().includes(event.target.value.toUpperCase()) || item.address.toUpperCase().includes(event.target.value.toUpperCase())
+      return item.name.toUpperCase().includes(event.target.value.toUpperCase()) ||
+        item.address.toUpperCase().includes(event.target.value.toUpperCase())
     })
     this.setState({
       cinemaArr: newCinemaArr

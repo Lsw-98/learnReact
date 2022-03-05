@@ -18,7 +18,9 @@ jsx有以下语法规则：
 ## *函数组件
 
 # state
-state是用来管理组件中需要用到的数据的。可以使用this.setState()方法来修改state。
+state是用来管理组件中需要用到的数据的。可以使用this.setState()方法来修改state。state在组件内部初始化，可以被组件自身修改，而外部不能访问也不能修改。
+
+没有state的组件叫无状态组件，设置了state的叫做有状态组件，**我们要尽量多写无状态组件，更便于维护**
 
 ## *setState()是异步还是同步的
     在一个事件函数中，不管setState()被调用多少次，都会在函数执行结束后，统一归结为一次重新渲染，这样做可以【优化性能】，这使得setState()表现为异步的。
@@ -38,7 +40,8 @@ state是用来管理组件中需要用到的数据的。可以使用this.setStat
 也可以通过[component].defaultProps属性来指定默认的props值
 
 ## *props和state的区别
-组件不可自己随意修改props，而state可以通过setState()修改。
+1. 组件不可自己随意修改props，而state可以通过setState()修改。
+2. props可以从父组件获取，state不可以
 
 ## *Props 验证
 可以通过props-type来对接收的props进行类型限制，例如：
@@ -73,6 +76,18 @@ react中的事件是绑定到document上面的，而原生的事件是绑定到d
 
 ## *react事件绑定的优点
 所有事件都代理到document，达到性能优化的目的
+
+# 受控组件与非受控组件
+## *受控组件
+在React中，可变状态通常保存在组件的状态属性(State)中，
+并且只能使用 setState() 更新，
+而呈现表单的React组件也控制着在后续用户输入时该表单中发生的情况，
+以这种由React控制的输入表单元素而改变其值的方式，称为：“受控组件”。
+
+## *非受控组件
+React要编写一个非受控组件，可以使用ref来从DMO节点中获取表单数据。
+
+# 父子组件通信
 
 # todoList 相关知识点
 

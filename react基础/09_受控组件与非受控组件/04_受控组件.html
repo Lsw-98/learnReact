@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Demo extends React.Component {
+      state = ({
+        content: "",
+        messageArr: [
+          { id: "1", content: "vue真好用", isChecked: false, },
+          { id: "2", content: "react大厂用的多", isChecked: false, },
+          { id: "3", content: "nodejs必须掌握", isChecked: false, },
+        ],
+      })
+
+      addContent = () => {
+        const newContent = { id: Math.random(), content: this.state.content }
+        this.setState({
+          messageArr: [...this.state.messageArr, newContent],
+          content: "",  // 清空输入框
+        })
+      }
+
+      delContent = (id) => {
+        const newMessages = this.state.messageArr.filter((item) => {
+          return item.id !== id
+        })
+        this.setState({
+          messageArr: newMessages
+        })
+      }
+
+      handleChange = (event) => {
+        this.setState({
+          content: event.target.value
+        })
+      }
+
+      handleCheck = (id) => {
+        const newMessages = [...this.state.messageArr]
+        newMessages[id].isChecked = !newMessages[id].isChecked
+        this.setState({
+          messageArr: newMessages
+        })
+      }
+
+      render() {
+        return (
+          <div>
+            {/*
+              改为受控组件
+            */}
+            <input value={this.state.content} onChange={this.handleChange} type="text" />
+            <button onClick={this.addContent}>add</button>
+            <ul>
+              {
+                this.state.messageArr.map((item, index) => {
+                  return (
+                    // 增加一个删除线
+                    <li key={item.id} style={{ textDecoration: item.isChecked ? "line-through" : "" }}>
+                      <input type="checkbox" checked={item.isChecked} onChange={() => { this.handleCheck(index) }} />
+                      {item.content}
+                      {/* <button onClick={this.delContent.bind(this, item.id)}>del</button> */}
+                      <button onClick={() => { this.delContent(item.id) }}>del</button>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+            {
+              this.state.messageArr.length === 0 ? <h2>暂无待办事项</h2> : null
+              // this.state.messageArr.length === 0 && <h2>暂无待办事项</h2> 
+            }
+          </div >
+        )
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+
+  </script>
+</body>
+
+</html>

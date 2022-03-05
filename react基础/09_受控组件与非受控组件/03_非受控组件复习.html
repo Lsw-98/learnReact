@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="https://cdn.staticfile.org/react/16.8.0/umd/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="https://cdn.staticfile.org/react-dom/16.8.0/umd/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Demo extends React.Component {
+      state = ({
+        username: ""
+      })
+
+      handleClick = () => {
+        this.setState({
+          username: ""
+        })
+      }
+
+      render() {
+        return (
+          <div>
+            {/*<input ref={res => this.username = res} type="text" defaultValue="Lsw" />*/}
+            {/*
+              不使用ref
+              调用onChange()方法，监听输入框内容是否发生改变，若改变了直接setState()
+            */}
+            <input type="text" value={this.state.username} onChange={(event) => {
+              this.setState({
+                username: event.target.value
+              })
+            }} />
+            <button onClick={this.handleClick}>点我显示username</button>
+
+            <h2>{this.state.username}</h2>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>
