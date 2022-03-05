@@ -32,6 +32,7 @@
         与传统的HTML表单输入相似，input输入值即显示最新值（使用 ref从DOM获取表单值）
       */
       submitMessage = (event) => {
+        // 可以阻止表单提交
         event.preventDefault()
         alert(`你输入的用户名是：${this.username.value}, 你输入的密码是${this.password.value}`)
       }
@@ -40,8 +41,8 @@
         return (
           <div>
             <form onSubmit={this.submitMessage}>
-              用户名：<input ref={currentNode => { this.username = currentNode }} type="text" name="username" />
-              密码：<input ref={currentNode => { this.password = currentNode }} type="password" name="password" />
+              用户名：<input ref={currentNode => { this.username = currentNode }} type="text" />
+              密码：<input ref={currentNode => { this.password = currentNode }} type="password" />
               <br />
               <button>提交</button>
             </form>

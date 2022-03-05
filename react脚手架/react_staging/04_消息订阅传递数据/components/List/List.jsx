@@ -12,7 +12,7 @@ export default class List extends Component {
 
   componentDidMount() {
     // 订阅消息
-    // updateState是订阅名，data是接收到的消息数据
+    // 第一个参数updateState是订阅名，第二个参数是data，表示接收到的消息数据
     this.token = Pubsub.subscribe('updateState', (_, stateObj) => {
       this.setState(stateObj)
     })

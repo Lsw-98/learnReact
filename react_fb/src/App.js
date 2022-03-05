@@ -3,15 +3,17 @@ import './App.css'
 import Cinema from './component/Cinema/Cinema'
 import Profile from './component/Profile/Profile'
 import Home from './component/Home/Home'
+import Tabbar from './component/Tabbar/Tabbar'
+import Navbar from './component/Navbar/Navbar'
 
 export default class App extends Component {
   state = ({
+    current: 0,
     data: [
       { id: "1", title: "电影" },
       { id: "3", title: "选座" },
       { id: "2", title: "我的" },
     ],
-    current: 0,
   })
 
   handleClick = (index) => {
@@ -20,21 +22,26 @@ export default class App extends Component {
     })
   }
 
+  goCenter = () => {
+    this.setState({
+      current: 2
+    })
+  }
+
   render() {
-    const { data, current } = this.state
+    const { current } = this.state
     return (
       <div>
+        <Navbar goCenter={this.goCenter} />
         {
           current === 0 ? <Home /> :
             current === 1 ? <Cinema /> : <Profile />
         }
-        <ul>
-          {
-            data.map((item, index) => {
-              return <li onClick={() => { this.handleClick(index) }} className={current === index ? 'active' : null} key={item.id}>{item.title}</li>
-            })
-          }
-        </ul>
+
+        {/* 
+          直接写函数名，不需要传参
+        */}
+        <Tabbar getCurrent={this.handleClick} current={this.state.current} data={this.state.data} />
       </div >
     )
   }

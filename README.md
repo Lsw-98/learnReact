@@ -88,6 +88,36 @@ react中的事件是绑定到document上面的，而原生的事件是绑定到d
 React要编写一个非受控组件，可以使用ref来从DMO节点中获取表单数据。
 
 # 父子组件通信
+## *子传父
+父组件给子组件一个函数属性，子组件接收到该属性后，在某些事件发生后对函数进行回调，告知父组件，父组件对某些状态进行更改
+
+## *父传子
+通过给组件声明属性给子组件传值
+
+# 非父子组件通信的方式
+## *状态提升
+React中的状态提升就是一个组件将想要共享的状态传给公共父组件，然后在父组件上改变这个状态，通过props传给另一个组件
+
+## *消息订阅
+步骤：  
+1. 组件A订阅消息
+```js
+// 订阅消息
+// 第一个参数updateState是订阅名，第二个参数是data，表示接收到的消息数据
+this.token = Pubsub.subscribe('updateState', (_, stateObj) => {
+  this.setState(stateObj)
+})
+```
+2. 组件B发布消息，更改state数据
+```js
+Pubsub.publish('updateState', { isFirst: false, isLoading: true })
+```
+3. 组件A接收到消息，根据消息重新渲染页面
+4. 组件A在componentWillUnmount()取消订阅
+订阅消息可以在componentDidMount()钩子函数中进行
+
+## *context状态树传参
+
 
 # todoList 相关知识点
 
