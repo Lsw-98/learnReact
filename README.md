@@ -118,6 +118,47 @@ Pubsub.publish('updateState', { isFirst: false, isLoading: true })
 
 ## *context状态树传参
 
+# React插槽
+
+```html
+  <script type="text/babel">
+    class Child extends React.Component {
+      render() {
+        return (
+          <div>
+            Child
+            {/*
+                插槽
+                Child标签中的所有内容，都在props.children属性中
+                this.props.children[index]
+            */}
+            {
+              this.props.children[1]
+            }
+          </div>
+        )
+      }
+    }
+
+    class Person extends React.Component {
+      render() {
+        return (
+          <div>
+            <Child>
+              {/*
+                这里不会显示<div>1111</div>
+                渲染到<Child>时react会把整个Child组件替换Child标签里的所有内容
+              */}
+              <div>1111</div>
+            </Child>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Person />, document.getElementById("test"))
+  </script>
+```
 
 # todoList 相关知识点
 

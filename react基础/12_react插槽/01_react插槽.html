@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script src="../../js/17.0.2/react.development.js"></script>
+  <!-- 引入react-dom，用于支持react操作DOM -->
+  <script src="../../js/17.0.2/react-dom.development.js"></script>
+  <!-- 用于将jsx转化为js -->
+  <script src="../../js/17.0.2/babel.min.js"></script>
+  <!-- 用于对组件标签属性进行限制 -->
+  <script src="../../js/17.0.2/prop-types.js"></script>
+
+  <script type="text/babel">
+    class Child extends React.Component {
+      render() {
+        return (
+          <div>
+            Child
+            {/*
+                插槽
+                Child标签中的所有内容，都在props.children属性中
+                this.props.children[index]
+              */}
+            {
+              this.props.children[1]
+            }
+          </div>
+        )
+      }
+    }
+
+    class Person extends React.Component {
+      render() {
+        return (
+          <div>
+            <Child>
+              {/*
+                这里不会显示<div>1111</div>
+                渲染到<Child>时react会把整个Child组件替换Child标签里的所有内容
+              */}
+              <div>1111</div>
+              <div>2222</div>
+            </Child>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Person />, document.getElementById("test"))
+  </script>
+</body>
+
+</html>
