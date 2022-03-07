@@ -160,6 +160,119 @@ Pubsub.publish('updateState', { isFirst: false, isLoading: true })
   </script>
 ```
 
+# 生命周期
+组件的生命周期
+1. 初始化阶段：由ReactDOM.render()触发---初次渲染
+    1. constructor()
+    2. componentWillMount()
+    3. render()   常用
+    4. componentDidMount()  常用
+      一般在componentDidMount()函数中做初始化的事情，例如：开启定时器、发送网络请求、订阅消息
+2. 更新阶段，由组件内部的this.setState()或父组件重新渲染render触发
+    1. shouldComponentUpdate()
+    2. componentWillUpdate()
+    3. render()
+    4. componentDidUpdate()
+3. 卸载阶段，由ReactDOM.unmountComponentAtNode()触发
+    1. componenetWillUnmount()  常用
+      一般在componenetWillUnmount()做一些收尾的事情，例如：关闭定时器、取消订阅消息
+
+# hook
+hook可以在让我们在函数式组件中应用state。
+## *相关代码放在react_hook下 
+## *useState
+useState()用于保存组件状态。
+```js
+// 数组中第一个参数是状态名，第二个参数改变该状态的唯一方法
+const [text, setText] = useState("")
+const [list, setList] = useState(["aa", "bb", "cc"])
+```
+
+## *useEffect
+useEffect可以取代生命周期函数，在任何状态更新后都会执行。
+```js
+// useEffect类似于componentDidMount
+useEffect(() => {
+  // 设置副作用
+  
+  return () => {
+    // 清理副作用
+  }
+}, [/*依赖*/])
+
+// 依赖可以绑定多个状态，只有当绑定的状态发生改变时，才会触发useEffect函数
+// 如果传入空数组，则任何状态发生改变都不会触发useEffect函数
+```
+
+## *useCallback(记忆函数)
+useCallback()起缓存作用，防止因为组件重新渲染，导致方法被重新创建，只有在第二个参数变化了后，方法才重新声明一次。
+
+```js
+const handleClick = useCallback(() => {
+  ...
+}, [/*依赖*/])
+```
+
+useCallback()返回的是一个memoized(缓存)函数，仅在其绑定的一个依赖项变化后才更改，可以防止不必要的渲染。useCallback()的实现原理是：当使用一组参数初次调用函数时，会缓存参数和计算结果，当再次使用相同的参数调用该函数时，会直接返回相应的缓存结果。
+
+## useMemo(记忆组件)
+useCallback与useMemo的功能相同，类似于Vue中的计算属性。
+```js
+useCallback(fn, inputs) === useMemo(() => fn, inputs)
+```
+唯一区别在于：useCallback不会执行第一个参数，而是将它返回给你，而useMemo会执行第一个函数并将函数执行结果返回给你。   
+所以useCallback常用于记忆事件函数，生成及以后的事件函数并传递给子组件使用，而useMemo更适合经过函数计算得到一个确定的值，比如记忆组件。
+
+## useRef(保存引用值)
+
+## useContext(跨组件共享数据)
+使用useContext有以下步骤：
+1. React.createContext();创建一个TestContext对象
+2. TestContext.Provider包裹子组件
+3. 数据放在<TestContext.Provider value={value}>的value中
+4. 子组件中通过useContext(TestContext)获取值
+
+```js
+const Child1 = () => {
+  // 子组件通过useContext(TestContext)获取值
+  const value = useContext(TestContext);
+  return (
+    <div>
+      {(() => console.log('Child1-render'))()}
+      <h3>Child1-value: {value}</h3>
+    </div>
+  );
+}
+```
+
+## useReducer
+useReducer()类似于Redux。useReducer()接收一个reducer()函数作为参数，reducer()接收两个参数，第一个是state，第二个是action。
+useReducer()返回两个参数，第一个是state，返回状态中的值，第二个是dispatch，用于发布事件来更新state。
+```js
+// 处理函数
+const reducer = (preState, action) => {
+  // 这里可以用switch来接收dispatch事件
+}
+
+// 外部状态
+const intialState = () => {
+
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, intialState)
+  return (
+    <div className="App">
+      ...
+    </div >
+  );
+}
+```
+
+## 自定义hooks
+当我们想在两个函数之间共享逻辑（有相同代码段），我们就可以使用自定义hooks，将公共代码提取到第三个函数中。**自定义组件必须已use开头。**
+
+
 # todoList 相关知识点
 
 1. 拆分组件、实现静态组件，注意：className、style的写法
