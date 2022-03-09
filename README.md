@@ -272,6 +272,153 @@ function App() {
 ## 自定义hooks
 当我们想在两个函数之间共享逻辑（有相同代码段），我们就可以使用自定义hooks，将公共代码提取到第三个函数中。**自定义组件必须已use开头。**
 
+# 路由
+我理解的路由就是根据不同的url展示不同的组件，是一种url与components的映射关系。
+
+## 路由重定向
+```js
+<Redirect from='/' to='/films' />
+```
+from代表哪个url需要重定向，to代表重定向到哪个url，component代表重定向到url对应的组件
+
+## 实现路由精准匹配的两种方式
+### *Switch
+Switch用来实现页面的唯一渲染，Switch从上到下依次匹配Route，直到匹配到一个Route，就跳出匹配。  
+因为Redirect默认使用的是模糊匹配，如果不加上Switch限制，会导致路由匹配可能发生错误。
+### *exact
+可以给Redirect加上exact属性，使Redirect只可以匹配到'/'。
+
+## 路由嵌套
+二级路由必须写到一级路由对应的组件下，不可以统一写到indexRouter.js中，因为在indexRouter.js体现不出父子关系。
+
+## 声明式导航
+### *Link
+在react中，使用<Link>标签实现路由跳转，使用<Link>标签时，<font color="#FF6347">url会更新，组件会重新渲染，但页面不会重新加载</font>。
+
+### *NavLink
+<NavLink>是特殊的<Link>，会在匹配上当前的url的时候给已渲染的元素添加参数。
+```js
+ <NavLink to="/films">电影</NavLink>
+```
+
+### <font color="#FF6347">*在使用NavLink时遇到的错误</font>
+```js
+Uncaught Error: Invariant failed: You should not use <NavLink> outside a <Router>
+```
+该报错信息是说:不能再<Router>之外使用<NavLink>,解决方法有两种:
+1. 修改 index.js入口文件
+在`<App />`外层包裹<Router>
+```js
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+2. 使用插槽
+将使用了<NavLink>组件包裹在<Router>中。
+```js
+<MRouter>
+  {/* 将Tabbar作为插槽放在MRouter中 */}
+  <Tabbar></Tabbar>
+</MRouter>
+```
+然后/router/IndexRouter.js中使用props进行渲染。
+```js
+<HashRouter>
+  <Switch>
+    <Route path="/films" component={Films}></Route>
+    <Route path="/cinemas" component={Cinemas}></Route>
+    <Route path="/center" component={Center}></Route>
+    {/* 
+      重定向
+    */}
+    <Redirect exact from='/' to='/films' />
+  </Switch>
+  {this.props.children}
+</HashRouter>
+```
+
+## activeClassName
+当激活了某一项时,会加上activeClassName属性,否则不加。使用这个可以实现高亮效果。
+```js
+<ul>
+  <li>
+    <NavLink to="/films" activeClassName='active'>电影</NavLink>
+  </li>
+  <li>
+    <NavLink to="/cenimas" activeClassName='active'>影院</NavLink>
+  </li>
+  <li>
+    <NavLink to="/center" activeClassName='active'>我的</NavLink>
+  </li>
+</ul>
+```
+
+## 编程式导航
+NowPlaying是films的孩子，可以接收到props，可以使用this.props.history下的方法实现编程式导航。  
+也可以使用React hooks封装的useHistory进行函数式编程。  
+编程式导航常用到的方法:
+ - go
+ - goBack
+ - goForward
+
+## 动态路由
+在路径后跟上`/:路径名`，例如：
+```js
+<Route path="/detail/:id" component={Detail}></Route>
+```
+表示id这一级路由是动态变化的。  
+使用动态路由会将动态变化的路径值传过去。在`props.match.params`中可以找到动态变化的路径值。（<font color="#FF6347">一种路由传参方式</font>）
+  
+## 路由传参方式
+1. 动态路由
+2. query传参
+    - 使用props.history.push()方法，该方法接收两个参数，第一个参数为要传参的地址(组件)，第二个参数为query，query接收一个对象类型，代表需要传递的数据
+    - 在props.location.query查看接收到的参数
+```js
+  // A路由
+  props.history.push({ pathname: "/detail", query: { id } })
+
+  // Detail路由
+  console.log(props.location.query)  // {id: 5860}
+```       
+    
+3. state传参
+与query传参相同。
+
+### *三种传参方式的不同
+ - 动态路由传递的参数会在地址栏显示，query和state不显示
+ - state传参是加密的，刷新地址栏，参数不会丢失；query刷新地址栏，参数会丢失
+
+## 路由拦截
+当一个用户是第一个次浏览一个网站时，在他使用某些功能之前可能需要登录注册等操作，这时候就要判断用户是否已经登录，若没有登录，需要将路由拦截，并重定向到指定的url下。
+
+```js
+// Center页面
+function isAuth() {
+  return localStorage.getItem("token")
+}
+
+<Route path="/center" render={(props) => {
+  return isAuth() ? <Center {...props} /> : <Redirect to="/login" />
+}}></Route>
+
+// Login页面
+localStorage.setItem("token", "123")
+props.history.push('/center')
+```
+
+上述代码是判断用户在进入`<Center />（个人中心）`页面之前是否已经登录，如果没有登录，要将url重定向到`<Login />`页面，然后在 `<Login />`页面进行token设置，再跳转回center界面。
+
+使用render写法跳转到`<Center />`后，不能得到props对象，<font color="#FF6347">需要在回调函数内手动传入props</font>。
+
+# WithRouter
+WithRouter可以将将react-router的 history、location、match 三个对象传入props对象上
 
 # todoList 相关知识点
 
