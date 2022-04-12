@@ -485,9 +485,92 @@ WithRouter可以将将react-router的 history、location、match 三个对象传
     第二步：注册路由（声明接收）：无需声明
     第三步：路由组件（接收参数）：const { id, title } = this.props.location.state || {}
 
+## Router v6
+```js
+// history模式
+<BrowserRouter>
+  {/* 路由入口：指定跳转到哪一个组件，to用来配置路由地址 */}
+  <Link to='/'>首页</Link>
+  <Link to='/about'>关于</Link>
+  <Link to='/login'>登录</Link>
+  {/* 路由出口：路由对应的组件会在这里进行渲染 */}
+  <Routes>
+    {/* 指定路径和组件的对应关系，用于指定导航链接，完成路由匹配 */}
+    <Route path="/" element={<Home />}></Route>
+    <Route path="/about" element={<About />}></Route>
+    <Route path="/login" element={<Login />}></Route>
+  </Routes>
+</BrowserRouter >
+```
+
+- Link：路由入口，用于指定导航链接，完成路由跳转，最终渲染为a标签
+- Routes：路由出口，路由对应的组件在Routes中进行渲染
+- Route：指定路由地址与组件的对应关系，用于指定导航链接，完成路由匹配
+- BrowserRouter：history模式
+
+### **编程式导航**
+Router v6通过useNavigate钩子函数实现编程式导航
+```js
+import { useNavigate } from 'react-router-dom'
+// 指定钩子函数得到跳转函数
+const navigate = useNavigate()
+// 执行跳转函数，跳转到about页
+navigate('/about')   // 相当于push
+navigate('/about', { replace: true })   // 相当于replace
+navigate(-1)    // 相当于back
+navigate(1)     // 相当于forward
+navigate(-2)    // 相当于go
+```
+
+### **传参**
+Router v6有两种传参方式
+1. searchParams传参
+```js
+// 传参：
+navigage('/about?id=1001')
+// 取参：
+let [params] = useSearchParams()
+let id = params.get('id')
+```
+params是一个对象，里面包含很多方法：get、append、delete、forEach等，可以对传来的参数进行操作。
+
+
+2. params传参
+```js
+// 传参：
+navigage('/about/1001')
+// 取参：
+let params = useParams()
+let id = params.id
+```
+第二种方法的参数就是一个参数对象。
+
+### **嵌套路由**
+1. 定义嵌套路由声明
+```js
+{/* 指定路径和组件的对应关系，用于指定导航链接，完成路由匹配 */}
+<Route path="/" element={<Home />}>
+  {/* 定义二级路由 */}
+  <Route path='board' element={<Board />}></Route>
+  <Route path='article' element={<Article />}></Route>
+</Route>
+```
+
+2. 使用<Outlet />指定二级路由出口     
+然后再Home组件中配置二级路由出口。
+```js
+import { Outlet } from 'react-router-dom'
+{/* 二级路由出口 */}
+<Outlet></Outlet>
+```
+
+### **配置默认路由**
+使用index关键字配置默认路由
+```js
+<Route index element={<Board />}></Route>
+```
 
 # Redux
-
 Redux是一个专门用于管理状态的JS库，可以集中式管理React中多个组件共享的状态。
 
 ## * 什么情况下可以使用Redux
