@@ -54,16 +54,190 @@ static propTypes = {
 }
 ```
 
-# ref
-可以通过ref获取DOM元素，例如：
+# refs
+refs：提供了一种方式，是我们可以访问DOM节点或在render方法中创建React元素。
+
+以下几种情况适用于refs：
+1. 管理焦点，例如文本框或媒体播放
+2. 触发强制动画
+3. 集成第三方DOM库
+
+在官方文档中，<font color="#FF6347">React提醒我们不要过度使用refs</font>。
+
+## **回调形式的refs**
+在React16.3之前，都是使用回调函数的方式使用refs。
+
+<font color="#FF6347">这个回调函数接收React组件实例或DOM元素作为参数，以使他们能在其他地方被存储和访问</font>。
+
+下面是一个<font color="#FF6347">关于refs使用回调函数获取输入框焦点</font>的例子：
 ```js
-<input ref={content => { this.c = content }} type="text" />
-consloe.log(this.c)  // <input type="text">
-consloe.log(this.c.value)  // 可以得到输入框的内容
+import React, { Component } from 'react'
+
+export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    // 首先设置节点为 null
+    this.textInput = null
+
+    this.setTextInputRef = element => {
+      // 调用回调函数，将输入框的DOM赋值给textInput
+      this.textInput = element
+    }
+
+    this.focusTextInput = () => {
+      // 使用原生DOM API使text输入框获得焦点
+      if (this.textInput) {
+        // 先让文本框失去焦点，然后点击按钮后使文本框得到焦点
+        this.textInput.focus()
+      }
+    }
+  }
+
+  componentDidMount() {
+    // 组件被挂载后，让文本框自动获得焦点
+    this.focusTextInput()
+  }
+
+  render() {
+    return (
+      <div>
+        {/* 使用ref的回调函数将text输入框DOM节点的引用存储到React */}
+        <input type="text" ref={this.setTextInputRef} />
+        <input type="button" value="Focus the text input" onClick={this.focusTextInput} />
+      </div>
+    )
+  }
+}
+```
+上面的例子，在React组件挂载时，会调用ref回调函数并传入DOM元素，当卸载时又会传入null。<font color="#FF6347">在componentDidMount和componentDidUpdate触发前，React会保证refs一定是最新的</font>。
+
+
+## **createRef**
+### **Refs的创建**
+在React 16.3之后，<font color="#FF6347">Refs使用React.createRef()创建</font>，通过ref属性附加到React元素。<font color="#FF6347">在组件中通常将refs赋值给属性值，方便在整个组件中使用它们</font>。
+```js
+import React, { Component } from 'react'
+
+export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    // 将ref属性赋值给一个实例属性
+    this.myRef = React.createRef()
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" ref={this.myRef} />
+      </div>
+    )
+  }
+}
 ```
 
-## *注
-    在react中尽量少使用ref
+### **访问Refs**
+可以通过ref的current访问DOM元素。
+```js
+componentDidMount() {
+  // 在组件的任何地方都可以使用
+  console.log(this.myRef.current);   // <input tepe="text">
+}
+```
+
+ref的值根据节点的类型而有所不同：
+- 当ref属性属于HTML元素时，ref接收到的就是DOM元素
+- 当ref属性属于React组件时，ref接收到的就是组件实例
+- 不可以再函数式组件上使用ref，因为函数式组件没有实例
+
+### **使用createRef实现输入框自动获得焦点**
+```js
+import React, { Component } from 'react'
+
+export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    // 将ref属性赋值给一个实例属性
+    this.textInputRef = React.createRef()
+  }
+
+  componentDidMount() {
+    // 在组件的任何地方都可以使用
+    this.textInputRef.current.focus()
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" ref={this.textInputRef} />
+      </div>
+    )
+  }
+}
+
+```
+
+### **为class组件添加ref**
+```js
+import React, { Component } from 'react'
+
+export default class About extends Component {
+  constructor(props) {
+    super(props);
+    // 创建一个 ref 来存储 textInput 的 DOM 元素
+    this.textInput = React.createRef();
+    this.focusTextInput = this.focusTextInput.bind(this);
+  }
+
+  focusTextInput() {
+    // 直接使用原生 API 使 text 输入框获得焦点
+    // 注意：我们通过 "current" 来访问 DOM 节点
+    this.textInput.current.focus();
+  }
+
+  render() {
+    // 告诉 React 我们想把 <input> ref 关联到
+    // 构造器里创建的 `textInput` 上
+    return (
+      <div>
+        <input
+          type="text"
+          ref={this.textInput} />
+        <input
+          type="button"
+          value="Focus the text input"
+          onClick={this.focusTextInput}
+        />
+      </div>
+    );
+  }
+}
+```
+
+```js
+import React, { Component } from 'react'
+import About from '../About'
+
+export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    // 将ref属性赋值给一个实例属性
+    this.textInputRef = React.createRef()
+  }
+
+  componentDidMount() {
+    // 在组件的任何地方都可以使用
+    this.textInputRef.current.focusTextInput()
+  }
+
+  render() {
+    return (
+      <div>
+        <About ref={this.textInputRef} />
+      </div>
+    )
+  }
+}
+```
 
 # 事件处理
 通过onXxx属性指定事件处理函数  

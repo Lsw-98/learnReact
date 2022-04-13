@@ -1,12 +1,11 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div>
-      Home
-      {/* 二级路由出口 */}
-      <Outlet></Outlet>
+      <button className="FancyButton">
+        {props.children}
+      </button>
     </div>
   )
 }
