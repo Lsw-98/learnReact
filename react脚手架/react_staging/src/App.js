@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Home from './pages/Home'
+import ContextDemo from './pages/ContextDemo'
 
 
 
@@ -8,7 +8,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Home />
+        <ContextDemo />
       </div>
     )
   }
