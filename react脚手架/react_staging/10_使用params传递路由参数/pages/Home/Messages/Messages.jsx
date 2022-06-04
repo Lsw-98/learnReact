@@ -20,7 +20,7 @@ export default class Message extends Component {
                 <li key={item.id}>
                   {/* 
                     路由传递参数的方式：
-                    1. 向路由组件传递params参数
+                    2. 向路由组件传递params参数
                   */}
                   <Link to={`/home/messages/detail/${item.id}/${item.title}`}>{item.title}</Link>
                 </li>

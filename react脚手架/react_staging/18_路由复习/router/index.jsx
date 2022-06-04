@@ -40,8 +40,8 @@ export default function SetRouter() {
             </ul>
           </div>
           <Switch>
-            <Route exact path='/about' component={News}></Route>
-            <Route exact path='/about/messages' component={Messages}></Route>
+            <Route path='/about' component={News}></Route>
+            <Route path='/about/messages' component={Messages}></Route>
           </Switch>
         </About>
         <Route exact path='/cart' component={Cart}></Route>

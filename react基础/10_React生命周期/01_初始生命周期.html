@@ -30,6 +30,10 @@
         ReactDOM.unmountComponentAtNode(document.getElementById("test"))
       }
 
+      handleCopy = () => {
+        console.log(11);
+      }
+
       // 组件挂载到页面之后调用（1次） 
       componentDidMount() {
         this.timer = setInterval(() => {
@@ -55,6 +59,7 @@
           <div>
             <h2 style={{ opacity: this.state.opacity }}>学不会React，怎么办</h2>
             <button onClick={this.des}>点我试试</button>
+            <div onCopy={this.handleCopy}>dianwoshishi</div>
           </div>
         )
       }
